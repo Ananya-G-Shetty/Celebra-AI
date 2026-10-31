@@ -296,7 +296,7 @@ export default function VendorsPage() {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-plum-100 text-plum-800">
-                    {CATEGORY_LABELS[vendor.category as any] || vendor.category}
+                    {(CATEGORY_LABELS as Record<string, string>)[vendor.category] || vendor.category}
                   </span>
                   <span
                     className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
