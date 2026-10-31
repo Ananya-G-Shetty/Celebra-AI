@@ -1,0 +1,550 @@
+{
+  "events": [
+    {
+      "id": "event-wedding-01",
+      "name": "Smitha & Karthik's South Indian Wedding",
+      "category": "wedding",
+      "date": "2026-12-15",
+      "location": "The Tamarind Tree, Kanakapura Road, Bangalore",
+      "guestCount": 350,
+      "totalBudget": 1500000,
+      "budgetFlexibility": "moderate",
+      "spendingPriorities": [
+        "catering",
+        "photography",
+        "venue"
+      ],
+      "preferences": {
+        "themeStyle": "Traditional Heritage with Contemporary Marigold & Jasmine Florals",
+        "foodPreferences": "Authentic Karnataka Banana-Leaf Sadhya, Live Dosa Counters, Chiroti with Badam Milk, and Sattvic Evening Reception",
+        "culturalPreferences": "Traditional South Indian Brahmin-Kannadiga Customs with Muhurtham & Sangeet",
+        "indoorOutdoor": "both",
+        "specialRequirements": "Eco-friendly brass diyas, no single-use plastic, wheelchair access for grandparents, live Nadaswaram for Muhurtham"
+      },
+      "createdAt": "2026-10-15T10:00:00.000Z",
+      "updatedAt": "2026-10-31T15:19:56.490Z",
+      "aiPlan": {
+        "overview": {
+          "approach": "A holistic, milestone-driven planning roadmap for Smitha & Karthik's South Indian Wedding with 350 guests in The Tamarind Tree, Kanakapura Road, Bangalore. Balanced around catering & photography & venue.",
+          "concept": "Timeless Indian heritage traditions woven with contemporary comfort, sustainable florals, and authentic culinary hospitality.",
+          "mainPriorities": [
+            "Punctual timeline execution and welcoming guest hospitality for 350 attendees",
+            "Curated catering aligned with preferences: Authentic Karnataka Banana-Leaf Sadhya, Live Dosa Counters, Chiroti with Badam Milk, and Sattvic Evening Reception",
+            "High-impact visual aesthetics staying within the ₹15,00,000 budget ceiling"
+          ]
+        },
+        "themeAndDecor": {
+          "theme": "Traditional Heritage with Contemporary Marigold & Jasmine Florals",
+          "decorationIdeas": [
+            "Grand entrance toran with natural marigold garlands, mango leaves, and brass urlis with floating candles",
+            "Acoustic-friendly stage backdrop with textured fabric drape and warm amber fairy light cascades",
+            "Eco-conscious guest table centerpieces using terracotta pots with fresh local seasonal blooms",
+            "Interactive photo-booth with vintage cycle rickshaw or floral swing for celebratory memories"
+          ],
+          "colorPalette": [
+            "Deep Plum (#4A154B)",
+            "Warm Gold (#D4AF37)",
+            "Marigold Yellow (#FFB300)",
+            "Ivory (#FAF7F2)"
+          ],
+          "stageVenueConcepts": "Elevated platform with temple pillar motifs, floral canopy, focused warm spotlights, and safe ramp access for elders."
+        },
+        "catering": {
+          "menuHighlights": [
+            "Welcome Tender Coconut & Traditional Kokum Sherbet",
+            "Live Steaming Hot Dosa & Obbattu (Holige) Stations",
+            "Royal Vegetable Dum Biryani with Mirchi ka Salan & Raita",
+            "Signature Filter Coffee Bar and Hot Badam Milk",
+            "Artisanal Mysore Pak & Gulab Jamun with Rabri"
+          ],
+          "foodCategories": [
+            "Welcome Refreshments",
+            "Live Interactive Counters",
+            "Grand Feast",
+            "Desserts & Digestifs"
+          ],
+          "vegNonVegAlternatives": "Strict 100% Pure Vegetarian / Sattvic feast with no onion-garlic alternatives clearly marked.",
+          "estimatedCost": 480000,
+          "suggestions": "Opt for traditional banana-leaf dining for morning rituals and an open buffet for the evening reception."
+        },
+        "entertainment": {
+          "options": [
+            "Live Nadaswaram & Thavil Troupe for rituals",
+            "Acoustic Violin & Flute fusion ensemble",
+            "Interactive Sangeet MC"
+          ],
+          "activities": [
+            "Handmade caricature artist creating personalized mementos for guests",
+            "Celebration message tree where guests tie handwritten blessing cards"
+          ],
+          "guestEngagementIdeas": [
+            "Welcome tilak and flower garland greeting by host family",
+            "Live instant Polaroid photo corner with celebration stamps"
+          ]
+        },
+        "logistics": {
+          "seatingArrangements": "Mix of traditional floor seating with plush mattresses for close family rituals, and 30 round banquet tables (8-seater) for general guests.",
+          "guestManagement": "Digital QR-code welcome desk, designated luggage checkroom, and clear signages in English and Kannada.",
+          "transportation": "Designated valet parking on Kanakapura Road, with 2 dedicated battery buggies/shuttles for senior citizens.",
+          "accessibility": "Ramps to dining hall and stage; wheelchair availability at the main entrance gate."
+        },
+        "budgetDistribution": [
+          {
+            "category": "venue",
+            "categoryLabel": "Venue & Hall",
+            "suggestedAmount": 360000,
+            "percentage": 24,
+            "rationale": "Secures prime banquet hall/lawn with ample parking and green rooms"
+          },
+          {
+            "category": "catering",
+            "categoryLabel": "Catering & Food",
+            "suggestedAmount": 480000,
+            "percentage": 32,
+            "rationale": "Highest priority hospitality for 350 guests across all meals"
+          },
+          {
+            "category": "decoration",
+            "categoryLabel": "Decoration & Florals",
+            "suggestedAmount": 240000,
+            "percentage": 16,
+            "rationale": "Mandap, stage backdrop, entrance arch, and natural florals"
+          },
+          {
+            "category": "photography",
+            "categoryLabel": "Photography & Video",
+            "suggestedAmount": 180000,
+            "percentage": 12,
+            "rationale": "Candid photography, 4K film, drone capture, and fine-art album"
+          },
+          {
+            "category": "clothing_makeup",
+            "categoryLabel": "Attire & Styling",
+            "suggestedAmount": 90000,
+            "percentage": 6,
+            "rationale": "Bridal/host styling, saree draping, and ceremonial attire"
+          },
+          {
+            "category": "entertainment",
+            "categoryLabel": "Music & Entertainment",
+            "suggestedAmount": 60000,
+            "percentage": 4,
+            "rationale": "Traditional musicians, sound equipment, and sound engineer"
+          },
+          {
+            "category": "gifts",
+            "categoryLabel": "Presents & Favors",
+            "suggestedAmount": 45000,
+            "percentage": 3,
+            "rationale": "Eco-friendly return hampers (Channapatna toys / sweets)"
+          },
+          {
+            "category": "invitations",
+            "categoryLabel": "Invitations & Gifts",
+            "suggestedAmount": 22500,
+            "percentage": 1.5,
+            "rationale": "Custom WhatsApp digital video invite and seed paper cards"
+          },
+          {
+            "category": "miscellaneous",
+            "categoryLabel": "Miscellaneous & Contingency",
+            "suggestedAmount": 22500,
+            "percentage": 1.5,
+            "rationale": "Priest honorarium, cash tips, and emergency reserve"
+          }
+        ],
+        "personalizedRecommendations": {
+          "uniqueIdeas": [
+            "Eco-friendly plantable seed paper gift tags embedded with marigold and tulsi seeds",
+            "Live filter coffee counter served in traditional brass davarah-tumblers with frothy spectacle",
+            "Dedicated children’s activity zone with coloring sheets of Indian celebration folk tales"
+          ],
+          "affordableAlternatives": [
+            "Use seasonal local flowers (Mysore Jasmine & Marigold) rather than imported European blooms to save up to 40% on decor",
+            "Combine Haldi and Mehendi into a unified daytime sunlit courtyard setup to share venue charges"
+          ],
+          "culturalSuggestions": [
+            "Schedule the auspicious Muhurtham to align precisely with local panchangam timings",
+            "Incorporate traditional Mangala Vaadya (Nadaswaram) during the dawn arrival rituals"
+          ]
+        },
+        "disclaimer": "AI-generated budget estimates are indicative guidance based on Indian event market benchmarks. Actual supplier quotes will vary based on dates, season, and guest count.",
+        "generatedAt": "2026-10-31T15:19:56.488Z"
+      }
+    },
+    {
+      "id": "event-birthday-02",
+      "name": "Aarav's 1st Birthday: Little Krishna & Stars",
+      "category": "birthday",
+      "date": "2026-11-20",
+      "location": "Indiranagar Club, Bangalore",
+      "guestCount": 75,
+      "totalBudget": 175000,
+      "budgetFlexibility": "strict",
+      "spendingPriorities": [
+        "decoration",
+        "entertainment",
+        "catering"
+      ],
+      "preferences": {
+        "themeStyle": "Peacock Feathers & Butter Pots in Pastel Blue and Warm Gold",
+        "foodPreferences": "Kid-friendly live waffle counter, mini idlis, chaat station, and customized eggless cake",
+        "culturalPreferences": "Traditional Aarti followed by modern games and sensory play",
+        "indoorOutdoor": "indoor",
+        "specialRequirements": "Channapatna wooden toy return gifts, safe toddler ball pit area"
+      },
+      "createdAt": "2026-10-20T14:30:00.000Z",
+      "updatedAt": "2026-10-31T11:00:00.000Z"
+    },
+    {
+      "id": "event-community-03",
+      "name": "Diwali & Kannada Rajyotsava Community Utsav",
+      "category": "community",
+      "date": "2026-11-10",
+      "location": "Brigade Gateway Amphitheatre, Malleshwaram, Bangalore",
+      "guestCount": 250,
+      "totalBudget": 250000,
+      "budgetFlexibility": "flexible",
+      "spendingPriorities": [
+        "entertainment",
+        "catering",
+        "decoration"
+      ],
+      "preferences": {
+        "themeStyle": "Clay Diyas, Traditional Torans, and Karnataka Red & Yellow Palette",
+        "foodPreferences": "Millet-based snacks, organic filter coffee, and sweet Pongal",
+        "culturalPreferences": "Yakshagana performance snippet, Dandiya Raas, and local art showcase",
+        "indoorOutdoor": "outdoor",
+        "specialRequirements": "Rain shelter backup, waste segregation bins, eco-friendly leaf plates"
+      },
+      "createdAt": "2026-10-25T09:00:00.000Z",
+      "updatedAt": "2026-10-31T10:00:00.000Z"
+    }
+  ],
+  "expenses": [
+    {
+      "id": "exp-1",
+      "eventId": "event-wedding-01",
+      "category": "venue",
+      "title": "Heritage Open-Air Lawn & Heritage Villa Rental",
+      "estimatedAmount": 350000,
+      "actualAmount": 340000,
+      "paidAmount": 200000,
+      "status": "paid",
+      "notes": "Includes lawn, 2 bride/groom green rooms, and parking attendant staff"
+    },
+    {
+      "id": "exp-2",
+      "eventId": "event-wedding-01",
+      "category": "catering",
+      "title": "Traditional Banana Leaf Sadhya (Breakfast + Grand Lunch + Evening High Tea)",
+      "estimatedAmount": 450000,
+      "actualAmount": 440000,
+      "paidAmount": 150000,
+      "status": "paid",
+      "notes": "350 plates @ ₹1,100 per guest + live filter coffee and welcome tender coconuts"
+    },
+    {
+      "id": "exp-3",
+      "eventId": "event-wedding-01",
+      "category": "decoration",
+      "title": "Temple Style Floral Mandap & Jasmine Garlands",
+      "estimatedAmount": 220000,
+      "actualAmount": 210000,
+      "paidAmount": 100000,
+      "status": "paid",
+      "notes": "Natural marigolds, tuberoses, brass hanging lamps, and urli floral entry"
+    },
+    {
+      "id": "exp-4",
+      "eventId": "event-wedding-01",
+      "category": "photography",
+      "title": "Candid Photography, Cinematic 4K Film & Drone Coverage",
+      "estimatedAmount": 180000,
+      "actualAmount": 180000,
+      "paidAmount": 90000,
+      "status": "paid",
+      "notes": "2 candid photographers, 2 videographers, photo album with 150 printed spreads"
+    },
+    {
+      "id": "exp-5",
+      "eventId": "event-wedding-01",
+      "category": "clothing_makeup",
+      "title": "Bridal Kanjeevaram Sarees & Groom Traditional Mysore Silk Dhoti Set",
+      "estimatedAmount": 150000,
+      "actualAmount": 145000,
+      "paidAmount": 145000,
+      "status": "paid",
+      "notes": "Purchased from Angadi Silks, Jayanagar"
+    },
+    {
+      "id": "exp-6",
+      "eventId": "event-wedding-01",
+      "category": "clothing_makeup",
+      "title": "Bridal HD Makeup & Saree Draping (Muhurtham & Reception)",
+      "estimatedAmount": 35000,
+      "actualAmount": 35000,
+      "paidAmount": 15000,
+      "status": "paid",
+      "notes": "Booked celebrity makeup artist for bride and mother"
+    },
+    {
+      "id": "exp-7",
+      "eventId": "event-wedding-01",
+      "category": "entertainment",
+      "title": "Classical Nadaswaram Troupe & Evening Acoustic Fusion Band",
+      "estimatedAmount": 60000,
+      "actualAmount": 55000,
+      "paidAmount": 25000,
+      "status": "paid",
+      "notes": "4-artist Nadaswaram team for morning ritual and 4-piece fusion band for evening"
+    },
+    {
+      "id": "exp-8",
+      "eventId": "event-wedding-01",
+      "category": "gifts",
+      "title": "Return Gift Hampers (Channapatna Brass Urlis & Mysore Pak)",
+      "estimatedAmount": 45000,
+      "actualAmount": 40000,
+      "paidAmount": 40000,
+      "status": "paid",
+      "notes": "200 curated eco-jute gift hampers with handwritten thank-you cards"
+    },
+    {
+      "id": "exp-9",
+      "eventId": "event-wedding-01",
+      "category": "invitations",
+      "title": "Botanical Laser-Cut Box Invitations & Digital WhatsApp RSVP Video",
+      "estimatedAmount": 25000,
+      "actualAmount": 22000,
+      "paidAmount": 22000,
+      "status": "paid",
+      "notes": "Seed paper plantable invitations"
+    },
+    {
+      "id": "exp-10",
+      "eventId": "event-wedding-01",
+      "category": "miscellaneous",
+      "title": "Contingency Fund, Dakshina & Priest Honorarium",
+      "estimatedAmount": 40000,
+      "actualAmount": 35000,
+      "paidAmount": 15000,
+      "status": "paid",
+      "notes": "Cash envelopes for temple priests, cleaners, and logistics tips"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task-w-1",
+      "eventId": "event-wedding-01",
+      "title": "Finalize Muhurtham & Reception Guest List",
+      "description": "Consolidate WhatsApp, family lists, and RSVPs into finalized count of 350 guests.",
+      "deadline": "2026-11-15",
+      "milestone": "30_days_before",
+      "priority": "high",
+      "status": "completed",
+      "category": "general"
+    },
+    {
+      "id": "task-w-2",
+      "eventId": "event-wedding-01",
+      "title": "Catering Menu Tasting & Special Diet Finalization",
+      "description": "Taste test Karnataka Sadhya specialties (Obbattu, Kosambari, Bisi Bele Bath) and confirm Sattvic counter.",
+      "deadline": "2026-11-20",
+      "milestone": "30_days_before",
+      "priority": "high",
+      "status": "completed",
+      "category": "catering"
+    },
+    {
+      "id": "task-w-3",
+      "eventId": "event-wedding-01",
+      "title": "Book Candid Photographer & Drone Clearance",
+      "description": "Sign contract with cinematic videographer; obtain venue drone permissions.",
+      "deadline": "2026-11-25",
+      "milestone": "30_days_before",
+      "priority": "high",
+      "status": "completed",
+      "category": "photography"
+    },
+    {
+      "id": "task-w-4",
+      "eventId": "event-wedding-01",
+      "title": "Review Floral Mandap 3D Stage Mockup",
+      "description": "Verify marigold arch dimensions, seating height, and brass thali setups with decorator.",
+      "deadline": "2026-12-01",
+      "milestone": "15_days_before",
+      "priority": "medium",
+      "status": "in_progress",
+      "category": "decoration"
+    },
+    {
+      "id": "task-w-5",
+      "eventId": "event-wedding-01",
+      "title": "Send Digital RSVP & Google Maps Location Pin",
+      "description": "Broadcast WhatsApp invites with interactive schedule and parking instructions.",
+      "deadline": "2026-12-05",
+      "milestone": "15_days_before",
+      "priority": "high",
+      "status": "in_progress",
+      "category": "invitations"
+    },
+    {
+      "id": "task-w-6",
+      "eventId": "event-wedding-01",
+      "title": "Assemble Return Gift Bags & Sweets Boxes",
+      "description": "Pack 200 eco-jute hampers with Mysore Pak and jasmine saplings.",
+      "deadline": "2026-12-08",
+      "milestone": "7_days_before",
+      "priority": "medium",
+      "status": "pending",
+      "category": "gifts"
+    },
+    {
+      "id": "task-w-7",
+      "eventId": "event-wedding-01",
+      "title": "Bridal Mehendi Session & Trial Saree Draping",
+      "description": "Coordinate Mehendi artist for bride & close bridesmaids; iron out Muhurtham attire.",
+      "deadline": "2026-12-12",
+      "milestone": "3_days_before",
+      "priority": "high",
+      "status": "pending",
+      "category": "clothing_makeup"
+    },
+    {
+      "id": "task-w-8",
+      "eventId": "event-wedding-01",
+      "title": "Venue Walkthrough & Sound Check with Nadaswaram Troupe",
+      "description": "Inspect stage lighting, test microphones, and confirm generator diesel backup.",
+      "deadline": "2026-12-14",
+      "milestone": "1_day_before",
+      "priority": "high",
+      "status": "pending",
+      "category": "venue"
+    },
+    {
+      "id": "task-w-9",
+      "eventId": "event-wedding-01",
+      "title": "Coordinate Breakfast Catering Delivery & Welcome Staff",
+      "description": "Ensure hot filter coffee & idli station are live by 7:00 AM for early Muhurtham arrivals.",
+      "deadline": "2026-12-15",
+      "milestone": "event_day",
+      "priority": "high",
+      "status": "pending",
+      "category": "catering"
+    }
+  ],
+  "vendors": [
+    {
+      "id": "ven-1",
+      "eventId": "event-wedding-01",
+      "name": "Siri Traditional Karnataka Caterers",
+      "category": "catering",
+      "contactPerson": "Raghavendra Rao",
+      "phone": "+91 98450 12345",
+      "email": "raghavendra@siricaterers.in",
+      "quotedPrice": 450000,
+      "negotiatedPrice": 440000,
+      "status": "booked",
+      "paymentStatus": "advance_paid",
+      "advancePaid": 150000,
+      "rating": 5,
+      "notes": "Serving on fresh plantain leaves. Special requests: Less spicy Rasam and piping hot Obbattu."
+    },
+    {
+      "id": "ven-2",
+      "eventId": "event-wedding-01",
+      "name": "Vriksh Floral & Mandap Art",
+      "category": "decoration",
+      "contactPerson": "Pooja Hegde",
+      "phone": "+91 99801 67890",
+      "email": "pooja@vrikshdecor.com",
+      "quotedPrice": 230000,
+      "negotiatedPrice": 210000,
+      "status": "booked",
+      "paymentStatus": "advance_paid",
+      "advancePaid": 100000,
+      "rating": 4.8,
+      "notes": "Temple bell pillars, marigold curtains, brass hanging diyas with warm LED backlights."
+    },
+    {
+      "id": "ven-3",
+      "eventId": "event-wedding-01",
+      "name": "Moments in Motion Cinematography",
+      "category": "photography",
+      "contactPerson": "Vikram Shenoy",
+      "phone": "+91 97412 34567",
+      "email": "vikram@momentsinmotion.com",
+      "quotedPrice": 190000,
+      "negotiatedPrice": 180000,
+      "status": "booked",
+      "paymentStatus": "advance_paid",
+      "advancePaid": 90000,
+      "rating": 4.9,
+      "notes": "Full day coverage, teaser video within 7 days, 4K documentary film within 30 days."
+    },
+    {
+      "id": "ven-4",
+      "eventId": "event-wedding-01",
+      "name": "Carnatic Harmonies & Band",
+      "category": "entertainment",
+      "contactPerson": "Vidwan Srinivas",
+      "phone": "+91 94480 89012",
+      "email": "srinivas@carnaticharmonies.org",
+      "quotedPrice": 65000,
+      "negotiatedPrice": 55000,
+      "status": "booked",
+      "paymentStatus": "advance_paid",
+      "advancePaid": 25000,
+      "rating": 4.7,
+      "notes": "Traditional Nadaswaram for 7:30 AM Muhurtham; violin-flute fusion for evening reception."
+    }
+  ],
+  "inspirations": [
+    {
+      "id": "insp-1",
+      "eventId": "event-wedding-01",
+      "title": "Brass Urli & Floating Jasmine Welcome Foyer",
+      "category": "Decoration",
+      "description": "Place three antique brass urlis filled with water, floating orange marigolds, tuberoses, and scented floating candles at the arrival walkway to greet guests with gentle fragrance.",
+      "culturalContext": "Traditional South Indian Mangala Vaadya welcome with auspicious water & flower symbolism.",
+      "tags": [
+        "South Indian",
+        "Auspicious",
+        "Eco-friendly",
+        "Warm Welcome"
+      ],
+      "savedAt": "2026-10-25T14:00:00.000Z"
+    },
+    {
+      "id": "insp-2",
+      "eventId": "event-wedding-01",
+      "title": "Interactive Live Filter Coffee & Steaming Holige Bar",
+      "category": "Catering",
+      "description": "A rustic brass counter where fresh Mysore Pak and hot Bele Holige (Puran Poli) are roasted on tawa with desi ghee, served alongside metre-long froth filter coffee in traditional davarah-tumblers.",
+      "culturalContext": "Celebrates authentic Karnataka culinary hospitality with interactive spectacle.",
+      "tags": [
+        "Karnataka",
+        "Live Food Station",
+        "Authentic Sweets",
+        "Crowd Pleaser"
+      ],
+      "savedAt": "2026-10-26T16:20:00.000Z"
+    }
+  ],
+  "chatHistory": [
+    {
+      "id": "chat-1",
+      "eventId": "event-wedding-01",
+      "sender": "assistant",
+      "text": "Namaste! I am your Celebra AI Assistant. I have full context of Smitha & Karthik's South Indian Wedding (₹15L budget, 350 guests). How can I assist your planning today?",
+      "timestamp": "2026-10-31T12:00:00.000Z",
+      "suggestedQuestions": [
+        "How can we reduce decor costs without losing the temple aesthetic?",
+        "What questions should I ask my caterer during the final review?",
+        "What are the top 3 items to complete this week?",
+        "How do we manage parking logistics for 350 guests?"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-main: #FAF7F2;
+    --text-primary: #200521;
+    --text-muted: #645468;
+    --plum-core: #4A154B;
+    --burgundy-core: #722F37;
+    --coral-core: #FF6F61;
+    --gold-core: #D4AF37;
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  *:focus-visible {
+    outline: 2px solid #722F37;
+    outline-offset: 2px;
+  }
+}
+
+/* Elegant glassmorphism and subtle gradients */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(228, 186, 219, 0.35);
+}
+
+.glass-plum {
+  background: linear-gradient(135deg, rgba(74, 21, 75, 0.95), rgba(114, 47, 55, 0.9));
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.subtle-mesh-bg {
+  background-color: #FAF7F2;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(241, 220, 237, 0.5) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(255, 233, 231, 0.6) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(252, 249, 238, 0.8) 0px, transparent 50%);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F5EFEB;
+}
+::-webkit-scrollbar-thumb {
+  background: #D190C3;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #7B2A6A;
+}
