@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getEvents, createEvent, resetToSeedData } from '@/lib/storage';
+import { getErrorMessage } from '@/lib/utils';
 import { CelebrationEvent } from '@/types';
 
 export async function GET() {
   try {
     const events = getEvents();
     return NextResponse.json({ success: true, data: events });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to fetch events' },
+      { success: false, error: getErrorMessage(err) || 'Failed to fetch events' },
       { status: 500 }
     );
   }
@@ -71,9 +72,9 @@ export async function POST(req: NextRequest) {
 
     const saved = createEvent(newEvent);
     return NextResponse.json({ success: true, data: saved }, { status: 201 });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to create event' },
+      { success: false, error: getErrorMessage(err) || 'Failed to create event' },
       { status: 500 }
     );
   }

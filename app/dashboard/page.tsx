@@ -35,6 +35,7 @@ import {
   getDaysRemaining,
   calculateBudgetSummary,
   parseColorItem,
+  getErrorMessage,
 } from '@/lib/utils';
 import { ExpenseItem, TimelineTask, Vendor } from '@/types';
 
@@ -54,8 +55,8 @@ export default function DashboardPage() {
       if (events.length <= 1) {
         router.push('/plan');
       }
-    } catch (err) {
-      console.error('Failed to delete event:', err);
+    } catch (err: unknown) {
+      setDashboardError(getErrorMessage(err));
       setIsDeleting(false);
     }
   };
@@ -65,10 +66,12 @@ export default function DashboardPage() {
   const [vendors, setVendors] = useState<Vendor[]>([]);
   const [loadingMetrics, setLoadingMetrics] = useState<boolean>(true);
   const [isRegenerating, setIsRegenerating] = useState<boolean>(false);
+  const [dashboardError, setDashboardError] = useState<string | null>(null);
 
   const fetchDashboardData = async (eventId: string) => {
     try {
       setLoadingMetrics(true);
+      setDashboardError(null);
       const [expRes, taskRes, venRes] = await Promise.all([
         fetch(`/api/expenses?eventId=${eventId}`),
         fetch(`/api/tasks?eventId=${eventId}`),
@@ -84,8 +87,8 @@ export default function DashboardPage() {
       if (expData.success) setExpenses(expData.data || []);
       if (taskData.success) setTasks(taskData.data || []);
       if (venData.success) setVendors(venData.data || []);
-    } catch (err) {
-      console.error('Error fetching dashboard data:', err);
+    } catch (err: unknown) {
+      setDashboardError(getErrorMessage(err));
     } finally {
       setLoadingMetrics(false);
     }
@@ -101,6 +104,7 @@ export default function DashboardPage() {
     if (!activeEvent) return;
     try {
       setIsRegenerating(true);
+      setDashboardError(null);
       const res = await fetch('/api/generate-plan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -115,8 +119,8 @@ export default function DashboardPage() {
         await refreshEvents();
         await fetchDashboardData(activeEvent.id);
       }
-    } catch (err) {
-      console.error('Failed to regenerate plan:', err);
+    } catch (err: unknown) {
+      setDashboardError(getErrorMessage(err));
     } finally {
       setIsRegenerating(false);
     }

@@ -24,7 +24,7 @@ import {
   Layers,
 } from 'lucide-react';
 import { EventCategory, BudgetFlexibility } from '@/types';
-import { formatINR } from '@/lib/utils';
+import { formatINR, getErrorMessage } from '@/lib/utils';
 
 export default function EventWizardPage() {
   const router = useRouter();
@@ -187,9 +187,8 @@ export default function EventWizardPage() {
       setTimeout(() => {
         router.push('/dashboard');
       }, 900);
-    } catch (err: any) {
-      console.error(err);
-      setErrorMsg(err.message || 'Something went wrong while generating your plan.');
+    } catch (err: unknown) {
+      setErrorMsg(getErrorMessage(err) || 'Something went wrong while generating your plan.');
       setIsGenerating(false);
     }
   };
@@ -562,7 +561,7 @@ export default function EventWizardPage() {
                         ...formData,
                         preferences: {
                           ...formData.preferences,
-                          indoorOutdoor: set.id as any,
+                          indoorOutdoor: set.id as 'indoor' | 'outdoor' | 'both',
                         },
                       })
                     }

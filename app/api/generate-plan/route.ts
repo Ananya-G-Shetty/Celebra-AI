@@ -10,6 +10,7 @@ import {
   addTask,
 } from '@/lib/storage';
 import { generateEventPlan } from '@/lib/gemini';
+import { getErrorMessage } from '@/lib/utils';
 import { CelebrationEvent, ExpenseItem, TimelineTask } from '@/types';
 
 export async function POST(req: NextRequest) {
@@ -151,10 +152,9 @@ export async function POST(req: NextRequest) {
       data: plan,
       engineStatus,
     });
-  } catch (err: any) {
-    console.error('Error generating event plan:', err);
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to generate event plan' },
+      { success: false, error: getErrorMessage(err) || 'Failed to generate event plan' },
       { status: 500 }
     );
   }

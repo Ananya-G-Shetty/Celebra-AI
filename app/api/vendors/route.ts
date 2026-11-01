@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getVendors, addVendor, updateVendor, deleteVendor, getEventById } from '@/lib/storage';
 import { getVendorVettingGuide } from '@/lib/gemini';
+import { getErrorMessage } from '@/lib/utils';
 import { Vendor } from '@/types';
 
 export async function GET(req: NextRequest) {
@@ -17,9 +18,9 @@ export async function GET(req: NextRequest) {
 
     const vendors = getVendors(eventId);
     return NextResponse.json({ success: true, data: vendors });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to fetch vendors' },
+      { success: false, error: getErrorMessage(err) || 'Failed to fetch vendors' },
       { status: 500 }
     );
   }
@@ -71,9 +72,9 @@ export async function POST(req: NextRequest) {
 
     const saved = addVendor(newVendor);
     return NextResponse.json({ success: true, data: saved }, { status: 201 });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to add vendor' },
+      { success: false, error: getErrorMessage(err) || 'Failed to add vendor' },
       { status: 500 }
     );
   }
@@ -110,9 +111,9 @@ export async function PUT(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true, data: updated });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to update vendor' },
+      { success: false, error: getErrorMessage(err) || 'Failed to update vendor' },
       { status: 500 }
     );
   }
@@ -132,9 +133,9 @@ export async function DELETE(req: NextRequest) {
 
     const deleted = deleteVendor(id);
     return NextResponse.json({ success: deleted });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to delete vendor' },
+      { success: false, error: getErrorMessage(err) || 'Failed to delete vendor' },
       { status: 500 }
     );
   }

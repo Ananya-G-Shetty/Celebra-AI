@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getEventById, getChatHistory, addChatMessage, clearChatHistory } from '@/lib/storage';
 import { chatWithEventAssistant } from '@/lib/gemini';
+import { getErrorMessage } from '@/lib/utils';
 import { ChatMessage } from '@/types';
 
 export async function GET(req: NextRequest) {
@@ -17,9 +18,9 @@ export async function GET(req: NextRequest) {
 
     const history = getChatHistory(eventId);
     return NextResponse.json({ success: true, data: history });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to fetch chat history' },
+      { success: false, error: getErrorMessage(err) || 'Failed to fetch chat history' },
       { status: 500 }
     );
   }
@@ -81,10 +82,9 @@ export async function POST(req: NextRequest) {
       data: assistantMsg,
       engineStatus,
     });
-  } catch (err: any) {
-    console.error('Error in AI Assistant chat:', err);
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to communicate with assistant' },
+      { success: false, error: getErrorMessage(err) || 'Failed to communicate with assistant' },
       { status: 500 }
     );
   }
@@ -104,9 +104,9 @@ export async function DELETE(req: NextRequest) {
 
     const cleared = clearChatHistory(eventId);
     return NextResponse.json({ success: cleared });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to clear chat history' },
+      { success: false, error: getErrorMessage(err) || 'Failed to clear chat history' },
       { status: 500 }
     );
   }

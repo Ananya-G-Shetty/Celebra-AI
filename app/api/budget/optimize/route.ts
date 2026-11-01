@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getEventById, getExpenses } from '@/lib/storage';
 import { optimizeBudget } from '@/lib/gemini';
+import { getErrorMessage } from '@/lib/utils';
 
 export async function POST(req: NextRequest) {
   try {
@@ -59,10 +60,9 @@ export async function POST(req: NextRequest) {
       data: result,
       engineStatus,
     });
-  } catch (err: any) {
-    console.error('Error optimizing budget:', err);
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to optimize budget' },
+      { success: false, error: getErrorMessage(err) || 'Failed to optimize budget' },
       { status: 500 }
     );
   }

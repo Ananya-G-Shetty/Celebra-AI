@@ -74,7 +74,9 @@ function loadInitialData(): DatabaseSchema {
       chatHistory: Array.isArray(parsed.chatHistory) ? parsed.chatHistory : [],
     };
   } catch (err) {
-    console.error('Error reading persistence store:', err);
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('Persistence store read fallback engaged:', err);
+    }
     return {
       events: [],
       expenses: [],
@@ -107,7 +109,9 @@ function writeDataFile(data: DatabaseSchema): boolean {
     fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
     return true;
   } catch (err) {
-    console.error('Error writing to persistence store:', err);
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('Persistence store write failure:', err);
+    }
     return false;
   }
 }

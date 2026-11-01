@@ -5,6 +5,7 @@ import {
   getDaysRemaining,
   formatCelebrationDate,
   parseColorItem,
+  getErrorMessage,
   CATEGORY_LABELS,
   CATEGORY_COLORS,
 } from '@/lib/utils';
@@ -184,6 +185,27 @@ describe('Category Labels and Color Constants', () => {
       expect(CATEGORY_LABELS[cat]).toBeDefined();
       // @ts-expect-error key check
       expect(CATEGORY_COLORS[cat]).toMatch(/^#[0-9a-fA-F]{6}$/);
+    });
+  });
+
+  describe('getErrorMessage Utility', () => {
+    test('extracts message from standard Error instance', () => {
+      const err = new Error('Database connection failed');
+      expect(getErrorMessage(err)).toBe('Database connection failed');
+    });
+
+    test('extracts raw string errors', () => {
+      expect(getErrorMessage('Network timeout occurred')).toBe('Network timeout occurred');
+    });
+
+    test('extracts message from objects with message property', () => {
+      expect(getErrorMessage({ message: 'Custom API Error' })).toBe('Custom API Error');
+    });
+
+    test('provides graceful fallback for unexpected objects or null', () => {
+      expect(getErrorMessage(null)).toBe('An unexpected error occurred');
+      expect(getErrorMessage(undefined)).toBe('An unexpected error occurred');
+      expect(getErrorMessage(404)).toBe('An unexpected error occurred');
     });
   });
 });

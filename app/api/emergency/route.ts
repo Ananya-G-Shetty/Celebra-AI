@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getEventById, getTasks, addTask } from '@/lib/storage';
 import { resolveEmergencyScenario } from '@/lib/gemini';
+import { getErrorMessage } from '@/lib/utils';
 import { TimelineTask } from '@/types';
 
 export async function POST(req: NextRequest) {
@@ -56,10 +57,9 @@ export async function POST(req: NextRequest) {
       data: resolution,
       engineStatus,
     });
-  } catch (err: any) {
-    console.error('Error in emergency planner:', err);
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to analyze emergency scenario' },
+      { success: false, error: getErrorMessage(err) || 'Failed to analyze emergency scenario' },
       { status: 500 }
     );
   }

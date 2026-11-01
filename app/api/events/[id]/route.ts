@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getEventById, updateEvent, deleteEvent } from '@/lib/storage';
+import { getErrorMessage } from '@/lib/utils';
 
 export async function GET(
   req: NextRequest,
@@ -14,9 +15,9 @@ export async function GET(
       );
     }
     return NextResponse.json({ success: true, data: event });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to fetch event' },
+      { success: false, error: getErrorMessage(err) || 'Failed to fetch event' },
       { status: 500 }
     );
   }
@@ -36,9 +37,9 @@ export async function PUT(
       );
     }
     return NextResponse.json({ success: true, data: updated });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to update event' },
+      { success: false, error: getErrorMessage(err) || 'Failed to update event' },
       { status: 500 }
     );
   }
@@ -57,9 +58,9 @@ export async function DELETE(
       );
     }
     return NextResponse.json({ success: true, message: 'Event and all associated records deleted successfully.' });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to delete event' },
+      { success: false, error: getErrorMessage(err) || 'Failed to delete event' },
       { status: 500 }
     );
   }

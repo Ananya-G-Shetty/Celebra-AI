@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getExpenses, addExpense, updateExpense, deleteExpense } from '@/lib/storage';
+import { getErrorMessage } from '@/lib/utils';
 import { ExpenseItem } from '@/types';
 
 export async function GET(req: NextRequest) {
@@ -16,9 +17,9 @@ export async function GET(req: NextRequest) {
 
     const expenses = getExpenses(eventId);
     return NextResponse.json({ success: true, data: expenses });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to fetch expenses' },
+      { success: false, error: getErrorMessage(err) || 'Failed to fetch expenses' },
       { status: 500 }
     );
   }
@@ -55,9 +56,9 @@ export async function POST(req: NextRequest) {
 
     const saved = addExpense(newExpense);
     return NextResponse.json({ success: true, data: saved }, { status: 201 });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to add expense' },
+      { success: false, error: getErrorMessage(err) || 'Failed to add expense' },
       { status: 500 }
     );
   }
@@ -94,9 +95,9 @@ export async function PUT(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true, data: updated });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to update expense' },
+      { success: false, error: getErrorMessage(err) || 'Failed to update expense' },
       { status: 500 }
     );
   }
@@ -116,9 +117,9 @@ export async function DELETE(req: NextRequest) {
 
     const deleted = deleteExpense(id);
     return NextResponse.json({ success: deleted });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to delete expense' },
+      { success: false, error: getErrorMessage(err) || 'Failed to delete expense' },
       { status: 500 }
     );
   }

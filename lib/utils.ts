@@ -220,3 +220,25 @@ export function parseColorItem(col: string): { name: string; hex: string } {
     hex: resolvedColor || '#7B2A6A',
   };
 }
+
+/**
+ * Safely extract an error message from an unknown thrown value.
+ * Complies with strict TypeScript no-explicit-any standards.
+ */
+export function getErrorMessage(err: unknown): string {
+  if (err instanceof Error) {
+    return err.message;
+  }
+  if (typeof err === 'string') {
+    return err;
+  }
+  if (
+    err !== null &&
+    typeof err === 'object' &&
+    'message' in err &&
+    typeof (err as { message: unknown }).message === 'string'
+  ) {
+    return (err as { message: string }).message;
+  }
+  return 'An unexpected error occurred';
+}

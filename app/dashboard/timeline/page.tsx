@@ -17,7 +17,7 @@ import {
   Bell,
   Check,
 } from 'lucide-react';
-import { TimelineTask, TaskMilestone, TaskPriority } from '@/types';
+import { TimelineTask, TaskMilestone, TaskPriority, ExpenseCategory } from '@/types';
 import { getDaysRemaining, formatCelebrationDate } from '@/lib/utils';
 
 export default function TimelinePage() {
@@ -38,7 +38,7 @@ export default function TimelinePage() {
     milestone: '30_days_before' as TaskMilestone,
     priority: 'high' as TaskPriority,
     status: 'pending' as 'pending' | 'in_progress' | 'completed',
-    category: 'general' as any,
+    category: 'general' as ExpenseCategory | 'general',
   });
 
   const fetchTasks = useCallback(async () => {

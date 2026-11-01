@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getInspirations, saveInspiration, deleteInspiration } from '@/lib/storage';
+import { getErrorMessage } from '@/lib/utils';
 import { SavedInspiration } from '@/types';
 
 export async function GET(req: NextRequest) {
@@ -16,9 +17,9 @@ export async function GET(req: NextRequest) {
 
     const inspirations = getInspirations(eventId);
     return NextResponse.json({ success: true, data: inspirations });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to fetch inspirations' },
+      { success: false, error: getErrorMessage(err) || 'Failed to fetch inspirations' },
       { status: 500 }
     );
   }
@@ -48,9 +49,9 @@ export async function POST(req: NextRequest) {
 
     const saved = saveInspiration(item);
     return NextResponse.json({ success: true, data: saved }, { status: 201 });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to save inspiration' },
+      { success: false, error: getErrorMessage(err) || 'Failed to save inspiration' },
       { status: 500 }
     );
   }
@@ -70,9 +71,9 @@ export async function DELETE(req: NextRequest) {
 
     const deleted = deleteInspiration(id);
     return NextResponse.json({ success: deleted });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to delete inspiration' },
+      { success: false, error: getErrorMessage(err) || 'Failed to delete inspiration' },
       { status: 500 }
     );
   }

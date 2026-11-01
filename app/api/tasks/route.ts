@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getTasks, addTask, updateTask, deleteTask } from '@/lib/storage';
+import { getErrorMessage } from '@/lib/utils';
 import { TimelineTask } from '@/types';
 
 export async function GET(req: NextRequest) {
@@ -16,9 +17,9 @@ export async function GET(req: NextRequest) {
 
     const tasks = getTasks(eventId);
     return NextResponse.json({ success: true, data: tasks });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to fetch tasks' },
+      { success: false, error: getErrorMessage(err) || 'Failed to fetch tasks' },
       { status: 500 }
     );
   }
@@ -50,9 +51,9 @@ export async function POST(req: NextRequest) {
 
     const saved = addTask(newTask);
     return NextResponse.json({ success: true, data: saved }, { status: 201 });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to add task' },
+      { success: false, error: getErrorMessage(err) || 'Failed to add task' },
       { status: 500 }
     );
   }
@@ -79,9 +80,9 @@ export async function PUT(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true, data: updated });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to update task' },
+      { success: false, error: getErrorMessage(err) || 'Failed to update task' },
       { status: 500 }
     );
   }
@@ -101,9 +102,9 @@ export async function DELETE(req: NextRequest) {
 
     const deleted = deleteTask(id);
     return NextResponse.json({ success: deleted });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { success: false, error: err.message || 'Failed to delete task' },
+      { success: false, error: getErrorMessage(err) || 'Failed to delete task' },
       { status: 500 }
     );
   }

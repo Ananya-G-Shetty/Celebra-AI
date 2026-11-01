@@ -616,7 +616,7 @@ export default function BudgetPage() {
                     onChange={(e) =>
                       setExpenseForm({
                         ...expenseForm,
-                        status: e.target.value as any,
+                        status: e.target.value as 'planned' | 'pending' | 'paid',
                       })
                     }
                     className="w-full px-3 py-2.5 rounded-xl border border-plum-200 bg-ivory-50 text-xs focus:outline-none focus:ring-2 focus:ring-plum-700"
