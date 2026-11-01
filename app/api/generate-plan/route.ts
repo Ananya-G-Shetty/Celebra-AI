@@ -1,41 +1,78 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getEventById, saveAiPlanToEvent, getExpenses, addExpense, getTasks, addTask } from '@/lib/storage';
+import {
+  getEventById,
+  getEvents,
+  createEvent,
+  saveAiPlanToEvent,
+  getExpenses,
+  addExpense,
+  getTasks,
+  addTask,
+} from '@/lib/storage';
 import { generateEventPlan } from '@/lib/gemini';
-import { ExpenseItem, TimelineTask } from '@/types';
+import { CelebrationEvent, ExpenseItem, TimelineTask } from '@/types';
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { eventId, customApiKey } = body;
+    const { eventId, customApiKey, eventData } = body;
 
-    if (!eventId) {
-      return NextResponse.json(
-        { success: false, error: 'Event ID is required.' },
-        { status: 400 }
-      );
+    let event: CelebrationEvent | null = eventId ? getEventById(eventId) : null;
+
+    // Resilient fallback: If not found in store by ID, but profile data was passed from client
+    if (!event && eventData) {
+      const restoredEvent: CelebrationEvent = {
+        ...eventData,
+        id: eventId || eventData.id || `event-${Date.now()}`,
+        name: eventData.name || 'Celebration',
+        category: eventData.category || 'other',
+        date: eventData.date || new Date().toISOString().split('T')[0],
+        location: eventData.location?.trim() || 'Bangalore, Karnataka',
+        guestCount: Number(eventData.guestCount) || 100,
+        totalBudget: Number(eventData.totalBudget) || 500000,
+        budgetFlexibility: eventData.budgetFlexibility || 'moderate',
+        spendingPriorities: eventData.spendingPriorities || ['catering', 'venue'],
+        preferences: {
+          themeStyle: eventData.preferences?.themeStyle || '',
+          foodPreferences: eventData.preferences?.foodPreferences || '',
+          culturalPreferences: eventData.preferences?.culturalPreferences || '',
+          indoorOutdoor: eventData.preferences?.indoorOutdoor || 'indoor',
+          specialRequirements: eventData.preferences?.specialRequirements || '',
+        },
+        createdAt: eventData.createdAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      event = createEvent(restoredEvent);
     }
 
-    const event = getEventById(eventId);
+    // Secondary fallback: check all events in case of ID formatting mismatch
+    if (!event && eventId) {
+      const all = getEvents();
+      event = all.find((e) => e.id === eventId) || null;
+    }
+
     if (!event) {
       return NextResponse.json(
-        { success: false, error: `Event with ID "${eventId}" not found.` },
+        { success: false, error: `Event with ID "${eventId || 'unspecified'}" not found.` },
         { status: 404 }
       );
     }
+
+    const targetEventId = event.id;
 
     // Call Gemini to generate the structured plan
     const { plan, engineStatus } = await generateEventPlan(event, customApiKey);
 
     // Save plan to event
-    saveAiPlanToEvent(eventId, plan);
+    saveAiPlanToEvent(targetEventId, plan);
 
     // If no expenses exist yet for this event, bootstrap from AI budget distribution
-    const existingExpenses = getExpenses(eventId);
+    const existingExpenses = getExpenses(targetEventId);
     if (existingExpenses.length === 0 && plan.budgetDistribution?.length) {
       plan.budgetDistribution.forEach((dist, idx) => {
         const item: ExpenseItem = {
           id: `exp-${Date.now()}-${idx}`,
-          eventId,
+          eventId: targetEventId,
           category: dist.category,
           title: `${dist.categoryLabel} Allocation`,
           estimatedAmount: dist.suggestedAmount,
@@ -50,7 +87,7 @@ export async function POST(req: NextRequest) {
     }
 
     // If no tasks exist, bootstrap initial timeline tasks
-    const existingTasks = getTasks(eventId);
+    const existingTasks = getTasks(targetEventId);
     if (existingTasks.length === 0) {
       const initialTasks: Array<Omit<TimelineTask, 'id' | 'eventId'>> = [
         {
@@ -104,7 +141,7 @@ export async function POST(req: NextRequest) {
         addTask({
           ...t,
           id: `task-gen-${Date.now()}-${i}`,
-          eventId,
+          eventId: targetEventId,
         });
       });
     }

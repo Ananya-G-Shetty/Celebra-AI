@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -104,7 +104,11 @@ export default function DashboardPage() {
       const res = await fetch('/api/generate-plan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ eventId: activeEvent.id, customApiKey: apiKey }),
+        body: JSON.stringify({
+          eventId: activeEvent.id,
+          customApiKey: apiKey,
+          eventData: activeEvent,
+        }),
       });
       const data = await res.json();
       if (data.success) {

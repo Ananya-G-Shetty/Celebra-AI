@@ -146,7 +146,8 @@ export default function EventWizardPage() {
         throw new Error(createData.error || 'Failed to create celebration profile.');
       }
 
-      const eventId = createData.data.id;
+      const savedEvent = createData.data;
+      const eventId = savedEvent?.id;
 
       // Generation steps simulation for rich user UX
       setGenStatusText('Synthesizing regional cultural traditions...');
@@ -159,7 +160,11 @@ export default function EventWizardPage() {
       const planRes = await fetch('/api/generate-plan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ eventId, customApiKey: apiKey }),
+        body: JSON.stringify({
+          eventId,
+          customApiKey: apiKey,
+          eventData: savedEvent || { ...formData, id: eventId },
+        }),
       });
       const planData = await planRes.json();
 

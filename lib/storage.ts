@@ -19,15 +19,19 @@ interface DatabaseSchema {
   chatHistory: ChatMessage[];
 }
 
+declare global {
+  // eslint-disable-next-line no-var
+  var __celebra_db: DatabaseSchema | undefined;
+}
+
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DATA_FILE = path.join(DATA_DIR, 'events.json');
 const DEFAULT_SEED_FILE = path.join(DATA_DIR, 'default-events.json');
 
 /**
- * Ensures data directory and persistence file exist.
- * If file does not exist, copies from default-events.json seed.
+ * Loads data from disk or initial seed, ensuring safe format.
  */
-function ensureDataFile(): DatabaseSchema {
+function loadInitialData(): DatabaseSchema {
   try {
     if (!fs.existsSync(DATA_DIR)) {
       fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -36,7 +40,11 @@ function ensureDataFile(): DatabaseSchema {
     if (!fs.existsSync(DATA_FILE)) {
       if (fs.existsSync(DEFAULT_SEED_FILE)) {
         const seedData = fs.readFileSync(DEFAULT_SEED_FILE, 'utf-8');
-        fs.writeFileSync(DATA_FILE, seedData, 'utf-8');
+        try {
+          fs.writeFileSync(DATA_FILE, seedData, 'utf-8');
+        } catch (wErr) {
+          console.warn('Could not write initial seed to DATA_FILE:', wErr);
+        }
         return JSON.parse(seedData);
       }
       const initial: DatabaseSchema = {
@@ -47,12 +55,24 @@ function ensureDataFile(): DatabaseSchema {
         inspirations: [],
         chatHistory: [],
       };
-      fs.writeFileSync(DATA_FILE, JSON.stringify(initial, null, 2), 'utf-8');
+      try {
+        fs.writeFileSync(DATA_FILE, JSON.stringify(initial, null, 2), 'utf-8');
+      } catch (wErr) {
+        console.warn('Could not write initial data to DATA_FILE:', wErr);
+      }
       return initial;
     }
 
     const content = fs.readFileSync(DATA_FILE, 'utf-8');
-    return JSON.parse(content);
+    const parsed = JSON.parse(content);
+    return {
+      events: Array.isArray(parsed.events) ? parsed.events : [],
+      expenses: Array.isArray(parsed.expenses) ? parsed.expenses : [],
+      tasks: Array.isArray(parsed.tasks) ? parsed.tasks : [],
+      vendors: Array.isArray(parsed.vendors) ? parsed.vendors : [],
+      inspirations: Array.isArray(parsed.inspirations) ? parsed.inspirations : [],
+      chatHistory: Array.isArray(parsed.chatHistory) ? parsed.chatHistory : [],
+    };
   } catch (err) {
     console.error('Error reading persistence store:', err);
     return {
@@ -66,7 +86,20 @@ function ensureDataFile(): DatabaseSchema {
   }
 }
 
+/**
+ * Ensures in-memory store and data file exist.
+ */
+function ensureDataFile(): DatabaseSchema {
+  if (!globalThis.__celebra_db) {
+    globalThis.__celebra_db = loadInitialData();
+  }
+  return globalThis.__celebra_db;
+}
+
 function writeDataFile(data: DatabaseSchema): boolean {
+  // Always update in-memory cache immediately so concurrent and subsequent requests stay consistent
+  globalThis.__celebra_db = data;
+
   try {
     if (!fs.existsSync(DATA_DIR)) {
       fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -90,7 +123,28 @@ export function getEvents(): CelebrationEvent[] {
 
 export function getEventById(id: string): CelebrationEvent | null {
   const data = ensureDataFile();
-  return (data.events || []).find((e) => e.id === id) || null;
+  let found = (data.events || []).find((e) => e.id === id);
+  if (found) return found;
+
+  // Fallback: check disk file in case it was written by an external process or reset
+  try {
+    if (fs.existsSync(DATA_FILE)) {
+      const diskContent = fs.readFileSync(DATA_FILE, 'utf-8');
+      const diskData: DatabaseSchema = JSON.parse(diskContent);
+      if (Array.isArray(diskData.events)) {
+        for (const de of diskData.events) {
+          if (!data.events.some((me) => me.id === de.id)) {
+            data.events.push(de);
+          }
+        }
+        found = (data.events || []).find((e) => e.id === id);
+      }
+    }
+  } catch (e) {
+    // Disk fallback error ignored
+  }
+
+  return found || null;
 }
 
 export function createEvent(event: CelebrationEvent): CelebrationEvent {
@@ -293,9 +347,15 @@ export function clearChatHistory(eventId: string): boolean {
 
 export function resetToSeedData(): DatabaseSchema {
   if (fs.existsSync(DEFAULT_SEED_FILE)) {
-    const seed = fs.readFileSync(DEFAULT_SEED_FILE, 'utf-8');
-    fs.writeFileSync(DATA_FILE, seed, 'utf-8');
-    return JSON.parse(seed);
+    const raw = fs.readFileSync(DEFAULT_SEED_FILE, 'utf-8');
+    const seed: DatabaseSchema = JSON.parse(raw);
+    try {
+      fs.writeFileSync(DATA_FILE, raw, 'utf-8');
+    } catch (err) {
+      console.warn('Could not write reset seed to DATA_FILE:', err);
+    }
+    globalThis.__celebra_db = seed;
+    return seed;
   }
   return ensureDataFile();
 }
