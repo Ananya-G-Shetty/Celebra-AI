@@ -281,15 +281,16 @@ export async function optimizeBudget(
   event: CelebrationEvent,
   currentExpenses: ExpenseItem[],
   targetSavings: number,
-  preservedCategories: string[],
+  preservedCategories: string[] = [],
   userNotes?: string,
   customKey?: string
 ): Promise<{ result: BudgetOptimizationResult; engineStatus: EngineStatus }> {
+  const safePreserved = Array.isArray(preservedCategories) ? preservedCategories : [];
   const prompt = buildBudgetOptimizerPrompt(
     event,
     currentExpenses,
     targetSavings,
-    preservedCategories,
+    safePreserved,
     userNotes
   );
 
@@ -330,8 +331,8 @@ export async function optimizeBudget(
             'Streamline transport logistics and consolidate vendor delivery trips to minimize on-site incidental payouts.',
         },
       ],
-      preservedPriorities: preservedCategories.length > 0 ? preservedCategories : ['catering', 'photography'],
-      tradeOffSummary: `Successfully found ${formatINR(targetSavings)} in strategic reductions across decor florals, physical invites, and logistics without compromising ${preservedCategories.join(' & ') || 'Catering & Photography'}.`,
+      preservedPriorities: safePreserved.length > 0 ? safePreserved : ['catering', 'photography'],
+      tradeOffSummary: `Successfully found ${formatINR(targetSavings)} in strategic reductions across decor florals, physical invites, and logistics without compromising ${safePreserved.join(' & ') || 'Catering & Photography'}.`,
       actionSteps: [
         'Call your decorator to request seasonal local flower alternatives before advance payment',
         'Finalize the digital RSVP video link rather than ordering physical acrylic invite boxes',

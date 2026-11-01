@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useEvent } from '@/components/EventContext';
 import {
   MessageSquare,
@@ -37,7 +37,7 @@ export default function AssistantPage() {
     'How should we manage elder accessibility and valet parking?',
   ];
 
-  const fetchHistory = async () => {
+  const fetchHistory = useCallback(async () => {
     if (!activeEventId) return;
     try {
       setLoadingHistory(true);
@@ -51,11 +51,11 @@ export default function AssistantPage() {
     } finally {
       setLoadingHistory(false);
     }
-  };
+  }, [activeEventId]);
 
   useEffect(() => {
     fetchHistory();
-  }, [activeEventId]);
+  }, [fetchHistory]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

@@ -1,11 +1,8 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
 import { EventProvider } from '@/components/EventContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-
-const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
 export const metadata: Metadata = {
   title: 'Celebra AI — Every celebration deserves a perfect plan',
@@ -30,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full">
-      <body className={`${inter.className} min-h-full flex flex-col antialiased bg-ivory-50 text-plum-950 selection:bg-plum-200 selection:text-plum-900`}>
+      <body className="min-h-full font-sans flex flex-col antialiased bg-ivory-50 text-plum-950 selection:bg-plum-200 selection:text-plum-900">
         <EventProvider>
           {/* Skip to Main Content Link for Keyboard Accessibility */}
           <a

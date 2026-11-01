@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useEvent } from '@/components/EventContext';
 import {
   Compass,
@@ -27,7 +27,7 @@ export default function InspirationPage() {
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const fetchInspirations = async () => {
+  const fetchInspirations = useCallback(async () => {
     if (!activeEventId) return;
     try {
       const res = await fetch(`/api/inspiration?eventId=${activeEventId}`);
@@ -38,11 +38,11 @@ export default function InspirationPage() {
     } catch (err) {
       console.error(err);
     }
-  };
+  }, [activeEventId]);
 
   useEffect(() => {
     fetchInspirations();
-  }, [activeEventId]);
+  }, [fetchInspirations]);
 
   if (!activeEvent) {
     return (

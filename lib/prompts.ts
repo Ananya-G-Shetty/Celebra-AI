@@ -139,13 +139,15 @@ SCHEMA:
 
 export function buildBudgetOptimizerPrompt(
   event: CelebrationEvent,
-  currentExpenses: ExpenseItem[],
-  targetSavings: number,
-  preservedCategories: string[],
+  currentExpenses: ExpenseItem[] = [],
+  targetSavings: number = 0,
+  preservedCategories: string[] = [],
   userNotes?: string
 ): string {
-  const currentTotal = event.totalBudget;
+  const currentTotal = event.totalBudget || 0;
   const targetNewTotal = Math.max(0, currentTotal - targetSavings);
+  const safePreserved = Array.isArray(preservedCategories) ? preservedCategories : [];
+  const safeExpenses = Array.isArray(currentExpenses) ? currentExpenses : [];
 
   return `You are Celebra AI's Senior Event Financial Strategist.
 The user wants to optimize their event budget by finding savings while protecting their non-negotiable priorities.
@@ -155,15 +157,15 @@ Total Initial Budget: ${formatINR(currentTotal)} (${currentTotal} INR)
 Target Savings: ${formatINR(targetSavings)} (${targetSavings} INR)
 New Target Budget Ceiling: ${formatINR(targetNewTotal)} (${targetNewTotal} INR)
 Guest Count: ${event.guestCount}
-User Protected Priorities (DO NOT CUT THESE OR CUT ONLY MINIMALLY): ${preservedCategories.join(', ') || 'Catering and Photography'}
+User Protected Priorities (DO NOT CUT THESE OR CUT ONLY MINIMALLY): ${safePreserved.join(', ') || 'Catering and Photography'}
 User Special Request: "${userNotes || 'Preserve quality while reducing non-essential expenses'}"
 
 EXISTING EXPENSE ALLOCATIONS:
-${currentExpenses.map((e) => `- ${e.title} (${e.category}): ${formatINR(e.actualAmount > 0 ? e.actualAmount : e.estimatedAmount)}`).join('\n')}
+${safeExpenses.map((e) => `- ${e.title} (${e.category}): ${formatINR(e.actualAmount > 0 ? e.actualAmount : e.estimatedAmount)}`).join('\n')}
 
 MANDATORY RULES:
 1. The revised budget MUST NOT exceed ${targetNewTotal} INR.
-2. The user's preserved priorities (${preservedCategories.join(', ')}) must remain untouched or receive zero reduction unless physically impossible.
+2. The user's preserved priorities (${safePreserved.join(', ') || 'None'}) must remain untouched or receive zero reduction unless physically impossible.
 3. Identify smart, practical trade-offs in other categories (e.g. seasonal local flowers instead of imported blooms, digital invites instead of heavy physical boxes, off-peak day slots).
 4. Return ONLY a valid JSON object matching the schema below.
 
@@ -191,9 +193,11 @@ SCHEMA:
 export function buildEmergencyPlannerPrompt(
   event: CelebrationEvent,
   scenarioTitle: string,
-  scenarioDescription: string,
-  existingTasks: TimelineTask[]
+  scenarioDescription: string = '',
+  existingTasks: TimelineTask[] = []
 ): string {
+  const safeTasks = Array.isArray(existingTasks) ? existingTasks : [];
+
   return `You are Celebra AI's Rapid Event Contingency Commander.
 An unexpected disruption has occurred for the following celebration:
 
@@ -205,10 +209,10 @@ Current Budget: ${formatINR(event.totalBudget)}
 
 EMERGENCY INCIDENT:
 Title: "${scenarioTitle}"
-Description: "${scenarioDescription}"
+Description: "${scenarioDescription || scenarioTitle}"
 
 CURRENT TIMELINE TASKS:
-${existingTasks.slice(0, 10).map((t) => `- [${t.status}] ${t.title} (${t.priority} priority, deadline: ${t.deadline})`).join('\n')}
+${safeTasks.slice(0, 10).map((t) => `- [${t.status}] ${t.title} (${t.priority} priority, deadline: ${t.deadline})`).join('\n') || '- No timeline tasks scheduled yet'}
 
 YOUR TASK:
 1. Assess the operational & financial severity (low, moderate, critical).

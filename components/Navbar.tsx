@@ -130,8 +130,9 @@ export default function Navbar() {
                 <div ref={eventDropdownRef} className="relative hidden md:block">
                   <button
                     onClick={() => setIsEventDropdownOpen(!isEventDropdownOpen)}
-                    className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-plum-50 hover:bg-plum-100/70 border border-plum-200 text-xs font-medium text-plum-900 transition-colors"
+                    aria-label="Switch celebration event"
                     aria-expanded={isEventDropdownOpen}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-plum-50 hover:bg-plum-100/70 border border-plum-200 text-xs font-medium text-plum-900 transition-colors"
                   >
                     <div className="w-2 h-2 rounded-full bg-coral-500 animate-ping" />
                     <span className="max-w-[150px] truncate font-semibold">
@@ -238,6 +239,7 @@ export default function Navbar() {
               <button
                 onClick={() => setIsApiKeyModalOpen(true)}
                 title="Configure Google Gemini Engine"
+                aria-label="Configure Google Gemini Engine"
                 className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-plum-200 bg-white hover:bg-plum-50 text-[11px] font-medium text-plum-800 transition-colors shadow-subtle"
               >
                 <div
@@ -254,6 +256,7 @@ export default function Navbar() {
               {/* Create Event CTA */}
               <Link
                 href="/plan"
+                aria-label="Create new celebration event"
                 className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-plum-800 via-burgundy-800 to-plum-900 text-white text-xs font-semibold shadow-card hover:opacity-95 transition-opacity"
               >
                 <PlusCircle className="w-3.5 h-3.5 text-gold-300" />
@@ -263,6 +266,8 @@ export default function Navbar() {
               {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                aria-expanded={isMobileMenuOpen}
                 className="lg:hidden p-2 rounded-xl text-plum-800 hover:bg-plum-100 transition-colors"
               >
                 {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}

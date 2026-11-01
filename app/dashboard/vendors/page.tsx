@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useEvent } from '@/components/EventContext';
 import {
   Users,
@@ -52,7 +52,7 @@ export default function VendorsPage() {
   const [vettingGuide, setVettingGuide] = useState<any | null>(null);
   const [isGeneratingGuide, setIsGeneratingGuide] = useState(false);
 
-  const fetchVendors = async () => {
+  const fetchVendors = useCallback(async () => {
     if (!activeEventId) return;
     try {
       setLoading(true);
@@ -66,11 +66,24 @@ export default function VendorsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [activeEventId]);
 
   useEffect(() => {
     fetchVendors();
-  }, [activeEventId]);
+  }, [fetchVendors]);
+
+  const filteredVendors = useMemo(() => {
+    return vendors.filter((v) => {
+      if (statusFilter !== 'all' && v.status !== statusFilter) return false;
+      return true;
+    });
+  }, [vendors, statusFilter]);
+
+  const bookedTotal = useMemo(() => {
+    return vendors
+      .filter((v) => v.status === 'booked')
+      .reduce((acc, v) => acc + (v.negotiatedPrice || v.quotedPrice || 0), 0);
+  }, [vendors]);
 
   if (!activeEvent) {
     return (
@@ -174,15 +187,6 @@ export default function VendorsPage() {
       setIsGeneratingGuide(false);
     }
   };
-
-  const filteredVendors = vendors.filter((v) => {
-    if (statusFilter !== 'all' && v.status !== statusFilter) return false;
-    return true;
-  });
-
-  const bookedTotal = vendors
-    .filter((v) => v.status === 'booked')
-    .reduce((acc, v) => acc + (v.negotiatedPrice || v.quotedPrice || 0), 0);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8 animate-fade-in">
@@ -390,6 +394,7 @@ export default function VendorsPage() {
                     onClick={() => handleOpenEditVendor(vendor)}
                     className="p-1.5 rounded-lg text-plum-600 hover:text-plum-900 hover:bg-plum-100"
                     title="Edit Vendor"
+                    aria-label={`Edit ${vendor.name}`}
                   >
                     <Edit2 className="w-3.5 h-3.5" />
                   </button>
@@ -397,6 +402,7 @@ export default function VendorsPage() {
                     onClick={() => handleDeleteVendor(vendor.id)}
                     className="p-1.5 rounded-lg text-rose-500 hover:text-rose-700 hover:bg-rose-50"
                     title="Delete Vendor"
+                    aria-label={`Delete ${vendor.name}`}
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>

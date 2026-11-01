@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useEvent } from '@/components/EventContext';
 import {
   IndianRupee,
@@ -70,7 +70,7 @@ export default function BudgetPage() {
   const [optimizationResult, setOptimizationResult] =
     useState<BudgetOptimizationResult | null>(null);
 
-  const fetchExpenses = async () => {
+  const fetchExpenses = useCallback(async () => {
     if (!activeEventId) return;
     try {
       setLoading(true);
@@ -84,11 +84,49 @@ export default function BudgetPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [activeEventId]);
 
   useEffect(() => {
     fetchExpenses();
-  }, [activeEventId]);
+  }, [fetchExpenses]);
+
+  const budgetSummary = useMemo(
+    () => calculateBudgetSummary(activeEvent ? activeEvent.totalBudget : 0, expenses),
+    [activeEvent, expenses]
+  );
+
+  // Prepare Recharts Data with memoization for optimal rendering efficiency
+  const { pieData, barData } = useMemo(() => {
+    const categorySpendMap: Record<string, { estimated: number; actual: number }> = {};
+    Object.keys(CATEGORY_LABELS).forEach((cat) => {
+      categorySpendMap[cat] = { estimated: 0, actual: 0 };
+    });
+
+    expenses.forEach((e) => {
+      if (categorySpendMap[e.category]) {
+        categorySpendMap[e.category].estimated += Number(e.estimatedAmount) || 0;
+        categorySpendMap[e.category].actual += Number(e.actualAmount) || 0;
+      }
+    });
+
+    const pie = Object.entries(categorySpendMap)
+      .filter(([_, val]) => val.estimated > 0 || val.actual > 0)
+      .map(([cat, val]) => ({
+        name: CATEGORY_LABELS[cat as ExpenseCategory] || cat,
+        value: val.actual > 0 ? val.actual : val.estimated,
+        color: CATEGORY_COLORS[cat as ExpenseCategory] || '#4A154B',
+      }));
+
+    const bar = Object.entries(categorySpendMap)
+      .filter(([_, val]) => val.estimated > 0 || val.actual > 0)
+      .map(([cat, val]) => ({
+        category: CATEGORY_LABELS[cat as ExpenseCategory] || cat,
+        Estimated: val.estimated,
+        Actual: val.actual,
+      }));
+
+    return { pieData: pie, barData: bar };
+  }, [expenses]);
 
   if (!activeEvent) {
     return (
@@ -97,37 +135,6 @@ export default function BudgetPage() {
       </div>
     );
   }
-
-  const budgetSummary = calculateBudgetSummary(activeEvent.totalBudget, expenses);
-
-  // Prepare Recharts Data
-  const categorySpendMap: Record<string, { estimated: number; actual: number }> = {};
-  Object.keys(CATEGORY_LABELS).forEach((cat) => {
-    categorySpendMap[cat] = { estimated: 0, actual: 0 };
-  });
-
-  expenses.forEach((e) => {
-    if (categorySpendMap[e.category]) {
-      categorySpendMap[e.category].estimated += Number(e.estimatedAmount) || 0;
-      categorySpendMap[e.category].actual += Number(e.actualAmount) || 0;
-    }
-  });
-
-  const pieData = Object.entries(categorySpendMap)
-    .filter(([_, val]) => val.estimated > 0 || val.actual > 0)
-    .map(([cat, val]) => ({
-      name: CATEGORY_LABELS[cat as ExpenseCategory] || cat,
-      value: val.actual > 0 ? val.actual : val.estimated,
-      color: CATEGORY_COLORS[cat as ExpenseCategory] || '#4A154B',
-    }));
-
-  const barData = Object.entries(categorySpendMap)
-    .filter(([_, val]) => val.estimated > 0 || val.actual > 0)
-    .map(([cat, val]) => ({
-      category: CATEGORY_LABELS[cat as ExpenseCategory] || cat,
-      Estimated: val.estimated,
-      Actual: val.actual,
-    }));
 
   const handleOpenAddExpense = () => {
     setEditingExpense(null);
@@ -419,16 +426,17 @@ export default function BudgetPage() {
             <span className="text-[11px] text-plum-500 font-medium">In Indian Rupees (₹)</span>
           </div>
 
-          <div className="h-64 w-full">
+          <div className="h-72 w-full">
             {barData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={barData} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
+                <BarChart data={barData} margin={{ top: 10, right: 10, left: 0, bottom: 40 }}>
                   <XAxis
                     dataKey="category"
                     tick={{ fontSize: 10, fill: '#4A154B' }}
                     interval={0}
                     angle={-25}
                     textAnchor="end"
+                    height={45}
                   />
                   <YAxis
                     tick={{ fontSize: 10, fill: '#641E55' }}
@@ -443,7 +451,11 @@ export default function BudgetPage() {
                       fontSize: '12px',
                     }}
                   />
-                  <Legend wrapperStyle={{ fontSize: '11px' }} />
+                  <Legend
+                    verticalAlign="top"
+                    align="right"
+                    wrapperStyle={{ fontSize: '11px', paddingBottom: '12px' }}
+                  />
                   <Bar dataKey="Estimated" fill="#D190C3" radius={[4, 4, 0, 0]} />
                   <Bar dataKey="Actual" fill="#4A154B" radius={[4, 4, 0, 0]} />
                 </BarChart>
@@ -521,6 +533,7 @@ export default function BudgetPage() {
                         onClick={() => handleOpenEditExpense(item)}
                         className="p-1.5 rounded-lg text-plum-600 hover:text-plum-900 hover:bg-plum-100 transition-colors"
                         title="Edit Expense"
+                        aria-label={`Edit ${item.title}`}
                       >
                         <Edit2 className="w-3.5 h-3.5" />
                       </button>
@@ -528,6 +541,7 @@ export default function BudgetPage() {
                         onClick={() => handleDeleteExpense(item.id)}
                         className="p-1.5 rounded-lg text-rose-500 hover:text-rose-700 hover:bg-rose-50 transition-colors"
                         title="Delete Expense"
+                        aria-label={`Delete ${item.title}`}
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>

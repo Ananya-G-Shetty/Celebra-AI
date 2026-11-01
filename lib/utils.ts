@@ -205,9 +205,11 @@ export function parseColorItem(col: string): { name: string; hex: string } {
   let resolvedColor = hex;
   if (!resolvedColor) {
     const lower = name.toLowerCase();
-    for (const [key, val] of Object.entries(colorMap)) {
+    // Sort keys by descending length so compound words like "marigold" match before "gold"
+    const sortedKeys = Object.keys(colorMap).sort((a, b) => b.length - a.length);
+    for (const key of sortedKeys) {
       if (lower.includes(key)) {
-        resolvedColor = val;
+        resolvedColor = colorMap[key];
         break;
       }
     }

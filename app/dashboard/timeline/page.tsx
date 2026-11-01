@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useEvent } from '@/components/EventContext';
 import {
   Clock,
@@ -41,7 +41,7 @@ export default function TimelinePage() {
     category: 'general' as any,
   });
 
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
     if (!activeEventId) return;
     try {
       setLoading(true);
@@ -55,11 +55,20 @@ export default function TimelinePage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [activeEventId]);
 
   useEffect(() => {
     fetchTasks();
-  }, [activeEventId]);
+  }, [fetchTasks]);
+
+  // Filter tasks with memoization for rendering efficiency
+  const filteredTasks = useMemo(() => {
+    return tasks.filter((t) => {
+      if (priorityFilter !== 'all' && t.priority !== priorityFilter) return false;
+      if (statusFilter !== 'all' && t.status !== statusFilter) return false;
+      return true;
+    });
+  }, [tasks, priorityFilter, statusFilter]);
 
   if (!activeEvent) {
     return (
@@ -158,13 +167,6 @@ export default function TimelinePage() {
       console.error(err);
     }
   };
-
-  // Filter tasks
-  const filteredTasks = tasks.filter((t) => {
-    if (priorityFilter !== 'all' && t.priority !== priorityFilter) return false;
-    if (statusFilter !== 'all' && t.status !== statusFilter) return false;
-    return true;
-  });
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8 animate-fade-in">
@@ -324,6 +326,7 @@ export default function TimelinePage() {
                           <button
                             type="button"
                             onClick={() => handleToggleTaskStatus(task)}
+                            aria-label={isCompleted ? `Mark ${task.title} as incomplete` : `Mark ${task.title} as completed`}
                             className="mt-0.5 p-1 rounded-lg text-plum-800 hover:text-emerald-700 transition-colors"
                           >
                             {isCompleted ? (
@@ -369,6 +372,7 @@ export default function TimelinePage() {
                             onClick={() => handleOpenEditTask(task)}
                             className="p-1 text-plum-500 hover:text-plum-800"
                             title="Edit Task"
+                            aria-label={`Edit ${task.title}`}
                           >
                             <Edit2 className="w-3.5 h-3.5" />
                           </button>
@@ -376,6 +380,7 @@ export default function TimelinePage() {
                             onClick={() => handleDeleteTask(task.id)}
                             className="p-1 text-rose-400 hover:text-rose-600"
                             title="Delete Task"
+                            aria-label={`Delete ${task.title}`}
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>

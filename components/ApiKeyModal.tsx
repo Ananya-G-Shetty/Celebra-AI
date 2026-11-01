@@ -32,7 +32,12 @@ export default function ApiKeyModal({ isOpen, onClose }: ApiKeyModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="api-modal-title"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in"
+    >
       <div className="bg-ivory-50 border border-plum-200 rounded-2xl shadow-elevated w-full max-w-md overflow-hidden">
         {/* Header */}
         <div className="bg-gradient-to-r from-plum-800 to-burgundy-800 text-white p-5 flex items-center justify-between">
@@ -41,12 +46,13 @@ export default function ApiKeyModal({ isOpen, onClose }: ApiKeyModalProps) {
               <Key className="w-5 h-5 text-gold-400" />
             </div>
             <div>
-              <h3 className="font-semibold text-lg text-white">Gemini Engine Settings</h3>
+              <h3 id="api-modal-title" className="font-semibold text-lg text-white">Gemini Engine Settings</h3>
               <p className="text-xs text-plum-200">Google Build with AI Evaluation</p>
             </div>
           </div>
           <button
             onClick={onClose}
+            aria-label="Close modal"
             className="p-1 rounded-lg text-plum-200 hover:text-white hover:bg-white/10 transition-colors"
           >
             <X className="w-5 h-5" />
